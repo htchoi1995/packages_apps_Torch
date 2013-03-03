@@ -1,6 +1,7 @@
 
 package com.aokp.Torch;
 
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -41,6 +42,7 @@ public class TorchActivity extends Activity implements SurfaceHolder.Callback {
             mApplication.mCamManager.turnOn(holder);
         } else if (mAction.equals(TORCH_OFF)) {
             mApplication.mCamManager.turnOff();
+            this.mApplication.mCamManager.turnOff();
         } else {
             mApplication.mCamManager.toggle(holder);
         }

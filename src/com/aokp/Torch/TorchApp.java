@@ -61,10 +61,10 @@ public class TorchApp extends Application {
                     mCamera.stopPreview();
                     mCamera.unlock();
                     Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
+                    releaseCam();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                releaseCam();
             }
         }
 
@@ -77,7 +77,6 @@ public class TorchApp extends Application {
                         params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                         mCamera.setParameters(params);
                         mCamera.stopPreview();
-                        mCamera.unlock();
                         releaseCam();
                         Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, false);
                     } else {
@@ -86,7 +85,6 @@ public class TorchApp extends Application {
                         mCamera.setParameters(params);
                         mCamera.setPreviewDisplay(holder);
                         mCamera.startPreview();
-                        mCamera.unlock();
                         Settings.System.putBoolean(getContentResolver(), Settings.System.TORCH_STATE, true);
                     }
                 } catch (Exception e) {
@@ -97,8 +95,10 @@ public class TorchApp extends Application {
 
         public void releaseCam() {
             if (mCamera != null) {
-                mCamera.release();
-                mCamera = null;
+                this.mCamera.setPreviewCallback(null);
+                this.mCamera.stopPreview();
+                this.mCamera.release();
+                this.mCamera = null;
             }
         }
     }
